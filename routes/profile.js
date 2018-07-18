@@ -1,5 +1,6 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const Profile = require("../models/profile");
 
 //profile page
 router.get("/", (req, res) => {
@@ -12,17 +13,28 @@ router.get("/create", (req, res) => {
 
 //save profile
 router.post("/", (req, res) => {
-  res.redirect("/");
+  let newProfile = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    title: req.body.title,
+    nursingSchool: req.body.nursingSchool,
+    postGrad: req.body.postGrad,
+    employment: req.body.employment
+  };
+  new Profile(newProfile).save().then(profile => {
+    res.redirect("/user/profile");
+  });
 });
 
-//edit cert
+//edit profile
 router.get("/edit", (req, res) => {
   res.render("./user/profile-edit");
 });
 
-//save edit to cert
+//save edit to profile
 router.put("/", (req, res) => {
-  res.redirect("/");
+  res.redirect("/user/profile");
 });
 
 module.exports = router;

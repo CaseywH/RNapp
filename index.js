@@ -5,6 +5,8 @@ const keys = require("./config/keys");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const methodOverride = require("method-override");
 
 //require routes
 const index = require("./routes/index");
@@ -25,7 +27,10 @@ mongoose
   .connect(keys.mongoDB)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
-
+//body-parser middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+//methodOverride middleware
+app.use(methodOverride("_method"));
 //path static files
 app.use(express.static(path.join(__dirname, "public")));
 //handlebars middleware

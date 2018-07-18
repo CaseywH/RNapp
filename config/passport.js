@@ -29,6 +29,8 @@ passport.use(
       }
       //we dont have record with this ID, make a new reord
       const user = await new User({ "facebook.id": profile.id }).save();
+      console.log(user);
+
       done(null, user);
     }
   )
