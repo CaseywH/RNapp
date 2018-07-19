@@ -16,6 +16,8 @@ const cert = require("./routes/cert");
 
 //require models
 require("./models/User");
+require("./models/Profile");
+require("./models/Cert");
 //passport config
 require("./config/passport");
 
