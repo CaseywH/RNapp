@@ -9,7 +9,10 @@ const CertSchema = new Schema({
   category: {
     type: String,
     required: true
-  }
+  },
+  issued: Date,
+  expiration: Date,
+  image: String
 });
 
 mongoose.model("certs", CertSchema);

@@ -12,7 +12,19 @@ router.get("/create", (req, res) => {
 
 //save cert
 router.post("/", (req, res) => {
-  res.redirect("../dashboard");
+  let newCert = {
+    title: req.body.title,
+    category: req.body.category,
+    issued: req.body.issued,
+    expiration: req.body.expiration,
+    image: ""
+  };
+  User.findById(req.body.user._id).then(user => {
+    Cert.create(newCert).then(cert => {
+      user.certifications.push(cert);
+      res.redirect("../dashboard");
+    });
+  });
 });
 
 //edit cert

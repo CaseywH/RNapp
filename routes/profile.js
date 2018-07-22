@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../models/Profile");
+const User = require("../models/User");
 
 //profile page
 router.get("/", (req, res) => {
@@ -22,8 +23,14 @@ router.post("/", (req, res) => {
     postGrad: req.body.postGrad,
     employment: req.body.employment
   };
-  new Profile(newProfile).save().then(profile => {
-    res.redirect("/user/profile");
+  User.findById(req.user._id).then(user => {
+    Profile.create(newProfile)
+      .save()
+      .then(newProfile => {
+        user.profile = newProfile;
+        user.save();
+        res.redirect("/user/profile");
+      });
   });
 });
 
@@ -34,7 +41,22 @@ router.get("/edit", (req, res) => {
 
 //save edit to profile
 router.put("/", (req, res) => {
-  res.redirect("/user/profile");
+  let editProfile = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    title: req.body.title,
+    nursingSchool: req.body.nursingSchool,
+    postGrad: req.body.postGrad,
+    employment: req.body.employment
+  };
+  User.findByIdAndUpdate(req.user._id, editProfile)
+    .then(user => {
+      res.redirect("/");
+    })
+    .catch(err => {
+      res.redirect("/");
+    });
 });
 
 module.exports = router;

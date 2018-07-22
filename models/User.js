@@ -13,7 +13,13 @@ const UserSchema = new Schema({
   profile: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile"
-  }
+  },
+  certifications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cert"
+    }
+  ]
 });
 
 mongoose.model("users", UserSchema);
